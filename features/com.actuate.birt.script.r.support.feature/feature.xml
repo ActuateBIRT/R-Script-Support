@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.actuate.birt.script.r.support.feature"
+      label="Rserve Scripting Extension for BIRT"
+      version="24.2.0.qualifier"
+      provider-name="Open Text">
+
+   <description>
+      R script support for OpenText Analytics Designer and OpenText
+Analytics Information Hub
+   </description>
+
+   <copyright>
+      Copyright (c) 2017 Actuate. All Rights Reserved.
+Trademarks owned by Actuate.
+&quot;OpenText&quot; is a trademark of Open Text.
+   </copyright>
+
+   <license url="https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html">
+      Open Text makes this plug-in available under the terms and conditions of GNU Lesser General Public License, version 2.1 (LGPLv2.1). The full text of LGPLv2.1 can be viewed at https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html.
+   </license>
+
+   <plugin
+         id="com.actuate.birt.script.ext.rserve"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

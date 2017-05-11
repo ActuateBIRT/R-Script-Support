@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="RserveConnectionFactory"
+         name="RserveConnectionFactory"
+         point="org.eclipse.birt.core.FactoryService">
+      <factory
+            class="com.actuate.birt.script.ext.rserve.RserveConnectionFactory"></factory>
+   </extension>
+   <extension
+         id="RScriptEngineFactory"
+         name="RScriptEngineFactory"
+         point="org.eclipse.birt.core.FactoryService">
+      <factory
+            class="com.actuate.birt.script.ext.rserve.RScriptEngineFactory">
+      </factory>
+   </extension>
+
+</plugin>

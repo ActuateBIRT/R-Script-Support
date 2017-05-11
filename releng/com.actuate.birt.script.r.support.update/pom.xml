@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.actuate.birt.script.r</groupId>
+        <artifactId>com.actuate.birt.script.r.releng</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>com.actuate.birt.script.r.support.update</artifactId>
+    <packaging>eclipse-repository</packaging>
+	<version>24.2.0-SNAPSHOT</version>
+</project>

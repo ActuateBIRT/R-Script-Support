@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.actuate.birt.script.r.support.feature_24.2.0.qualifier.jar" id="com.actuate.birt.script.r.support.feature" version="24.2.0.qualifier">
+      <category name="birt_r_support"/>
+   </feature>
+   <category-def name="birt_r_support" label="R Support for BIRT">
+      <description>
+         Provides R scripting support for OpenText Analytics products.
+      </description>
+   </category-def>
+</site>

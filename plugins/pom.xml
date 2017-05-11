@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.actuate.birt.script.r</groupId>
+    <artifactId>com.actuate.birt.script.r.plugins</artifactId>
+    <version>24.2.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.actuate.birt.script.r</groupId>
+        <artifactId>com.actuate.birt.script.r.root</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>com.actuate.birt.script.ext.rserve</module>
+    </modules>
+</project>

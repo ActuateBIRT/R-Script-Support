@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rserve Scripting Extension for BIRT
+Bundle-SymbolicName: com.actuate.birt.script.ext.rserve;singleton:=true
+Bundle-Version: 24.2.0.qualifier
+Bundle-Activator: com.actuate.birt.script.ext.rserve.Activator
+Bundle-Vendor: OpenText
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.birt.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: com.actuate.birt.script.ext.rserve
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/REngine-2.1.0.jar,
+ lib/Rserve-1.8.1.jar
