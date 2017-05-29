@@ -66,14 +66,16 @@ public class RScriptEngine extends AbstractScriptEngine {
 	public Object eval(String script, ScriptContext context) throws ScriptException {
 		// Get RConnection to use for evaluation; this is required
 		RConnection conn = getRConnection(context);
-
+		if ( conn == null )
+			throw new ScriptException("Failed to get R connection");
+		
 		script = fixScriptLineBreak(script);
 		
 		// Get desired eval result class; this is optional
 		Class<?> resultClass = (Class<?>)context.getAttribute(BINDING_RESULT_CLASS);
 		try {
 			if ( resultClass == null ) {
-				// Determin best return type based on R result
+				// Determine best return type based on R result
 				return evalAutoType( script, conn);
 			} else if ( resultClass == void.class ) {
 				// No return result expected
@@ -82,9 +84,37 @@ public class RScriptEngine extends AbstractScriptEngine {
 			} else {
 				return evalAsType(script, resultClass, conn);
 			}
-		} catch (RserveException | REXPMismatchException e) {
+		} catch (RserveException rse)  {
+			throw handleRserveException(conn, rse);
+		} catch ( REXPMismatchException e ) {
 			throw new ScriptException(e);
 		}
+	}
+	
+	/**
+	 * Create a ScriptException that best describe the root cause of an RserveException
+	 */
+	private ScriptException handleRserveException(RConnection conn, RserveException rse) {
+		String errMsg = null;
+		
+		// For generic error 127, we can follow up with a R function call geterrmessage()
+		// to find out root cause
+		if ( conn != null && rse.getRequestReturnCode() == 127 ) {
+			try {
+				REXP errExp = conn.eval( "geterrmessage()");
+				errMsg = errExp.asString();
+			} catch ( RserveException | REXPMismatchException e ) {
+				// Ignore error; fall through to just report generic error message
+			}
+		}
+
+		if ( errMsg == null || errMsg.isEmpty()) {
+			// Other types of error (such as parser error), or if we were not able to run geterrmessage()
+			errMsg = rse.getLocalizedMessage();
+		}
+		ScriptException se = new ScriptException( errMsg );
+		se.initCause( rse );
+		return se;
 	}
 
 	/**
@@ -172,45 +202,37 @@ public class RScriptEngine extends AbstractScriptEngine {
 	 *        double, double[], Double[], String, String[], double[][], byte[], Map (for data frames) 
 	 * @param rconn RConnection to use for evaluation
 	 */
-	public Object evalAsType(String script, Class<?> type, RConnection rconn) throws ScriptException {
-		REXP result;
-		try {
-			result = rconn.eval( script );
-		} catch (RserveException e) {
-			throw new ScriptException(e);
-		}
+	public Object evalAsType(String script, Class<?> type, RConnection rconn) 
+			throws RserveException, REXPMismatchException, ScriptException {
+		REXP result = rconn.eval( script );
 		if (result.isNull())
 			return null;
 		
-		try {
-			if ( type == Integer.class || type == int.class) {
-				return RVectorConverter.to_Integers( result )[0];
-			} else if ( Number.class.isAssignableFrom( type ) || type == double.class ) {
-				return RVectorConverter.to_Doubles( result )[0];
-			} else if ( type == double[].class ) {
-				return RVectorConverter.to_doubles( result );
-			} else if ( type == int[].class ) {
-				return RVectorConverter.to_ints( result );
-			} else if ( type == Double[].class) {
-				return RVectorConverter.to_Doubles( result );
-			} else if ( type == Integer[].class ) {
-				return RVectorConverter.to_Integers( result );
-			}
-			else if ( type == String.class) {
-				return RVectorConverter.to_Strings( result )[0];
-			} else if ( type == String[].class) {
-				return RVectorConverter.to_Strings( result );
-			} else if ( type == double[][].class ) {
-				return RVectorConverter.to_doubleMatrix( result );
-			} else if ( type == byte[].class) {
-				return result.asBytes();
-			} else if ( Map.class.isAssignableFrom(type)) {
-				return mapFromREXP(result);
-			} else {
-				throw new ScriptException( "Invalid type: " + type.getName() );
-			}
-		} catch (REXPMismatchException e) {
-			throw new ScriptException( e );
+		if ( type == Integer.class || type == int.class) {
+			return RVectorConverter.to_Integers( result )[0];
+		} else if ( Number.class.isAssignableFrom( type ) || type == double.class ) {
+			return RVectorConverter.to_Doubles( result )[0];
+		} else if ( type == double[].class ) {
+			return RVectorConverter.to_doubles( result );
+		} else if ( type == int[].class ) {
+			return RVectorConverter.to_ints( result );
+		} else if ( type == Double[].class) {
+			return RVectorConverter.to_Doubles( result );
+		} else if ( type == Integer[].class ) {
+			return RVectorConverter.to_Integers( result );
+		}
+		else if ( type == String.class) {
+			return RVectorConverter.to_Strings( result )[0];
+		} else if ( type == String[].class) {
+			return RVectorConverter.to_Strings( result );
+		} else if ( type == double[][].class ) {
+			return RVectorConverter.to_doubleMatrix( result );
+		} else if ( type == byte[].class) {
+			return result.asBytes();
+		} else if ( Map.class.isAssignableFrom(type)) {
+			return mapFromREXP(result);
+		} else {
+			throw new ScriptException( "Invalid type: " + type.getName() );
 		}
 	}
 
