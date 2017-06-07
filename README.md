@@ -2,7 +2,7 @@
 Extension to support R language features in BIRT and iHub
 
 ## Overview
-This project builds plugins to support R language features in OpenText Analytics ® Information Hub (iHub) and BIRT-based products such as BIRT Designer Professional (BDPro).
+This project builds plugins to support R language features in _OpenText Analytics_ ™ Information Hub (iHub) and BIRT-based products such as BIRT Designer Professional (BDPro).
 The plugins allow BIRT to connect to and query an R installation by using the [Rserve](https://www.rforge.net/Rserve) client/server communication protocol.
 
 ## Build
@@ -19,3 +19,5 @@ This produces the following 2 artifacts in the _releng/com.actuate.birt.script.r
 
   This jar file is the plugin that can be added to OpenText Analytics Information Hub to enable R Support feature. 
   
+## License
+_OpenText ™_ makes this entire project available under the terms and conditions of _GNU Lesser General Public License, version 2.1_ (LGPLv2.1). The full text of LGPLv2.1 can be viewed at https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html.
